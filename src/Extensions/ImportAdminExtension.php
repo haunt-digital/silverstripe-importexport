@@ -1,12 +1,12 @@
 <?php
 
-namespace ilateral\SilverStripe\ImportExport\extensions;
+namespace ilateral\SilverStripe\ImportExport\Extensions;
 
 use SilverStripe\Core\Extension;
 use SilverStripe\Security\Member;
 use SilverStripe\Admin\ModelAdmin;
 use SilverStripe\Core\Config\Config;
-use ilateral\SilverStripe\ImportExport\gridfield\GridFieldImporter;
+use ilateral\SilverStripe\ImportExport\GridField\GridFieldImporter;
 
 class ImportAdminExtension extends Extension
 {

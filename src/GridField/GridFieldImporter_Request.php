@@ -1,6 +1,6 @@
 <?php
 
-namespace ilateral\SilverStripe\ImportExport\gridfield;
+namespace ilateral\SilverStripe\ImportExport\GridField;
 
 use SilverStripe\Forms\Form;
 use SilverStripe\Assets\File;

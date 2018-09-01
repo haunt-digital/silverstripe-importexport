@@ -1,6 +1,6 @@
 mappings:
-  GridFieldImporter_Request: ilateral\SilverStripe\ImportExport\gridfield\GridFieldImporter_Request
-  GridFieldImporter: ilateral\SilverStripe\ImportExport\gridfield\GridFieldImporter
+  GridFieldImporter_Request: ilateral\SilverStripe\ImportExport\GridField\GridFieldImporter_Request
+  GridFieldImporter: ilateral\SilverStripe\ImportExport\GridField\GridFieldImporter
   BetterBulkLoader_Result: ilateral\SilverStripe\ImportExport\BulkLoader\BetterBulkLoader_Result
   ListBulkLoader: ilateral\SilverStripe\ImportExport\BulkLoader\ListBulkLoader
   BulkLoaderSource: ilateral\SilverStripe\ImportExport\BulkLoader\Sources\BulkLoaderSource
@@ -10,4 +10,4 @@ mappings:
   BetterBulkLoader: ilateral\SilverStripe\ImportExport\BulkLoader\BetterBulkLoader
   CSVFieldMapper: ilateral\SilverStripe\ImportExport\CSVFieldMapper
   CSVPreviewer: ilateral\SilverStripe\ImportExport\CSVPreviewer
-  ImportAdminExtension: ilateral\SilverStripe\ImportExport\extensions\ImportAdminExtension
+  ImportAdminExtension: ilateral\SilverStripe\ImportExport\Extensions\ImportAdminExtension
