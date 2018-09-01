@@ -2,12 +2,12 @@
 
 namespace ilateral\SilverStripe\ImportExport\bulkloader;
 
-use BulkLoader;
-use BulkLoaderSource;
-use DataObject;
-use SiteTree;
-use ValidationException;
-use SS_List;
+use SilverStripe\ORM\SS_List;
+use SilverStripe\Dev\BulkLoader;
+use SilverStripe\ORM\DataObject;
+use SilverStripe\CMS\Model\SiteTree;
+use SilverStripe\ORM\ValidationException;
+use ilateral\SilverStripe\ImportExport\bulkloader\sources\BulkLoaderSource;
 
 /**
  * The bulk loader allows large-scale uploads to SilverStripe via the ORM.
@@ -237,7 +237,7 @@ class BetterBulkLoader extends BulkLoader
             $obj->write();
 
             //publish pages
-            if ($this->publishPages && $obj instanceof SiteTree) {
+            if (class_exists(SiteTree::class) && $this->publishPages && $obj instanceof SiteTree) {
                 $obj->publish('Stage', 'Live');
             }
 

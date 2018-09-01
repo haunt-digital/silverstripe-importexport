@@ -2,23 +2,24 @@
 
 namespace ilateral\SilverStripe\ImportExport\gridfield;
 
-use RequestHandler;
-use SS_HTTPRequest;
-use Convert;
-use Controller;
-use SS_HTTPResponse;
-use File;
-use CSVFieldMapper;
-use LiteralField;
-use HiddenField;
-use ArrayData;
-use FieldList;
-use CheckboxField;
-use FormAction;
-use Form;
-use GridFieldDetailForm_ItemRequest;
-use SS_Cache;
-
+use SilverStripe\Forms\Form;
+use SilverStripe\Assets\File;
+use SilverStripe\Core\Convert;
+use SilverStripe\View\ArrayData;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\FormAction;
+use Psr\SimpleCache\CacheInterface;
+use SilverStripe\Forms\HiddenField;
+use SilverStripe\Control\Controller;
+use SilverStripe\Forms\LiteralField;
+use SilverStripe\Control\HTTPRequest;
+use SilverStripe\Forms\CheckboxField;
+use SilverStripe\Control\HTTPResponse;
+use SilverStripe\Control\RequestHandler;
+use SilverStripe\Core\Injector\Injector;
+use SilverStripe\Core\Cache\CacheFactory;
+use SilverStripe\Forms\GridField\GridFieldDetailForm_ItemRequest;
+use ilateral\SilverStripe\ImportExport\CSVFieldMapper;
 
 /**
  * Request handler that provides a seperate interface
@@ -98,7 +99,7 @@ class GridFieldImporter_Request extends RequestHandler
      * @param  SS_HTTPRequest $request
      * @return string
      */
-    public function upload(SS_HTTPRequest $request)
+    public function upload(HTTPRequest $request)
     {
         $field = $this->getUploadField();
         $uploadResponse = $field->upload($request);
@@ -124,7 +125,7 @@ class GridFieldImporter_Request extends RequestHandler
      * @param  SS_HTTPRequest $request
      * @return string
      */
-    public function preview(SS_HTTPRequest $request)
+    public function preview(HTTPRequest $request)
     {
         $file = File::get()
             ->byID($request->param('FileID'));
@@ -164,14 +165,16 @@ class GridFieldImporter_Request extends RequestHandler
     public function MapperForm()
     {
         $fields = new FieldList(
-            CheckboxField::create("HasHeader",
+            CheckboxField::create(
+                "HasHeader",
                 "This data includes a header row.",
                 true
             )
         );
         if ($this->component->getCanClearData()) {
             $fields->push(
-                CheckboxField::create("ClearData",
+                CheckboxField::create(
+                    "ClearData",
                     "Remove all existing records before import."
                 )
             );

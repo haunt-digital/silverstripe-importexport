@@ -2,18 +2,18 @@
 
 namespace ilateral\SilverStripe\ImportExport\gridfield;
 
-use GridField_HTMLProvider;
-use GridField_URLHandler;
-use BetterBulkLoader;
-use GridField;
-use HasManyList;
-use CsvBulkLoaderSource;
-use GridField_FormAction;
-use ArrayData;
-use Requirements;
-use UploadField;
-use DataModel;
-
+use SilverStripe\View\ArrayData;
+use SilverStripe\ORM\HasManyList;
+use SilverStripe\View\Requirements;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\AssetAdmin\Forms\UploadField;
+use SilverStripe\Forms\GridField\GridField_FormAction;
+use SilverStripe\Forms\GridField\GridField_URLHandler;
+use SilverStripe\Forms\GridField\GridField_HTMLProvider;
+use ilateral\SilverStripe\ImportExport\bulkloader\BetterBulkLoader;
+use ilateral\SilverStripe\ImportExport\bulkloader\ListBulkLoader;
+use ilateral\SilverStripe\ImportExport\bulkloader\sources\CsvBulkLoaderSource;
+use ilateral\SilverStripe\ImportExport\gridfield\GridFieldImporter;
 
 /**
  * Adds a way to import data to the GridField's DataList
@@ -76,10 +76,10 @@ class GridFieldImporter implements GridField_HTMLProvider, GridField_URLHandler
     {
         $gridlist = $gridField->getList();
         $class = ($gridlist instanceof HasManyList) ?
-                "ListBulkLoader" : "BetterBulkLoader";
+                ListBulkLoader::class : BetterBulkLoader::class;
         //set the correct constructor argument
-        $arg = ($class === "ListBulkLoader" ||
-            is_subclass_of($class, "ListBulkLoader")) ?
+        $arg = ($class === ListBulkLoader::class ||
+            is_subclass_of($class, ListBulkLoader::class)) ?
                 $gridlist : $gridField->getModelClass();
         $loader = new $class($arg);
         $loader->setSource(new CsvBulkLoaderSource());
@@ -123,7 +123,7 @@ class GridFieldImporter implements GridField_HTMLProvider, GridField_URLHandler
             'UploadField' => $uploadfield
         );
         $importerHTML = ArrayData::create($data)
-                    ->renderWith("GridFieldImporter");
+                    ->renderWith(GridFieldImporter::class);
         Requirements::javascript('importexport/javascript/GridFieldImporter.js');
 
         return array(

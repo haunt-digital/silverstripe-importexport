@@ -2,8 +2,7 @@
 
 namespace ilateral\SilverStripe\ImportExport\bulkloader;
 
-use DataList;
-
+use SilverStripe\ORM\DataList;
 
 /**
  * Peforms bulk loading, but works with a given DataList.

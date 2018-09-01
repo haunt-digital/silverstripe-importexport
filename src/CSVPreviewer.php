@@ -2,10 +2,10 @@
 
 namespace ilateral\SilverStripe\ImportExport;
 
-use ViewableData;
-use CSVParser;
-use ArrayList;
-use ArrayData;
+use SilverStripe\Dev\CSVParser;
+use SilverStripe\ORM\ArrayList;
+use SilverStripe\View\ArrayData;
+use SilverStripe\View\ViewableData;
 
 /**
  * View the content of a given CSV file
@@ -69,7 +69,7 @@ class CSVPreviewer extends ViewableData
         if (!$this->rows) {
             $this->loadCSV();
         }
-        return $this->renderWith("CSVPreviewer");
+        return $this->renderWith(self::class);
     }
 
     /**
@@ -98,15 +98,17 @@ class CSVPreviewer extends ViewableData
      */
     public function getRows()
     {
-        $out = new ArrayList();
+        $out = ArrayList::create();
         foreach ($this->rows as $row) {
             $columns = new ArrayList();
             foreach ($row as $column => $value) {
                 $columns->push(
-                    new ArrayData(array(
-                        "Heading"=> $column,
-                        "Value" => $value
-                    ))
+                    ArrayData::create(
+                        [
+                            "Heading"=> $column,
+                            "Value" => $value
+                        ]
+                    )
                 );
             }
             $out->push(

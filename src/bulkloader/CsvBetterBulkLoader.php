@@ -2,8 +2,7 @@
 
 namespace ilateral\SilverStripe\ImportExport\bulkloader;
 
-use CsvBulkLoaderSource;
-
+use ilateral\SilverStripe\ImportExport\bulkloader\sources\CsvBulkLoaderSource;
 
 /**
  * Backwards copatible CsvBulkLoader

@@ -2,8 +2,7 @@
 
 namespace ilateral\SilverStripe\ImportExport\bulkloader;
 
-use BulkLoader_Result;
-
+use SilverStripe\Dev\BulkLoader_Result;
 
 /**
  * Store result information about a BulkLoader import.

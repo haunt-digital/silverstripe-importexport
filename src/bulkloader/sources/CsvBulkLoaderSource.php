@@ -2,12 +2,10 @@
 
 namespace ilateral\SilverStripe\ImportExport\bulkloader\sources;
 
-
 use Goodby\CSV\Import\Standard\Interpreter;
 use Goodby\CSV\Import\Standard\Lexer;
 use Goodby\CSV\Import\Standard\LexerConfig;
 use ArrayIterator;
-
 
 /**
  * CSV file bulk loading source

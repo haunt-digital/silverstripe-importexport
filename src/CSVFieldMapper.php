@@ -2,10 +2,9 @@
 
 namespace ilateral\SilverStripe\ImportExport;
 
-use Arraylist;
-use ArrayData;
-use DropdownField;
-
+use SilverStripe\ORM\ArrayList;
+use SilverStripe\View\ArrayData;
+use SilverStripe\Forms\DropdownField;
 
 /**
  * A visual interface for mapping field names.
@@ -43,7 +42,7 @@ class CSVFieldMapper extends CSVPreviewer
         if (!$this->headings && !$this->mappablecols) {
             return;
         }
-        $out = new Arraylist();
+        $out = Arraylist::create();
         foreach ($this->headings as $heading) {
             $dropdown = $this->createHeadingDropdown($heading);
             if (is_array($this->mappingvalues) &&
@@ -51,10 +50,14 @@ class CSVFieldMapper extends CSVPreviewer
             ) {
                 $dropdown->setValue($this->mappingvalues[$heading]);
             }
-            $out->push(new ArrayData(array(
-                "Heading" => $heading,
-                "Dropdown" => $dropdown
-            )));
+            $out->push(
+                ArrayData::create(
+                    [
+                        "Heading" => $heading,
+                        "Dropdown" => $dropdown
+                    ]
+                )
+            );
         }
 
         return $out;
@@ -62,7 +65,8 @@ class CSVFieldMapper extends CSVPreviewer
 
     protected function createHeadingDropdown($heading)
     {
-        return DropdownField::create("mappings[".$heading."]",
+        return DropdownField::create(
+            "mappings[".$heading."]",
             "Dropdown", $this->mappablecols
         )->setHasEmptyDefault(true)
         ->setEmptyString("Unmapped");
