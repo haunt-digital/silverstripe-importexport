@@ -1,0 +1,6 @@
+---
+Name: importexportconfig
+---
+SilverStripe\Admin\ModelAdmin:
+  extensions:
+    -  ilateral\SilverStripe\ImportExport\Extensions\ImportAdminExtension
