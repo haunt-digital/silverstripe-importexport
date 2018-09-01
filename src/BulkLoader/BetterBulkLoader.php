@@ -1,13 +1,13 @@
 <?php
 
-namespace ilateral\SilverStripe\ImportExport\bulkloader;
+namespace ilateral\SilverStripe\ImportExport\BulkLoader;
 
 use SilverStripe\ORM\SS_List;
 use SilverStripe\Dev\BulkLoader;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\ORM\ValidationException;
-use ilateral\SilverStripe\ImportExport\bulkloader\sources\BulkLoaderSource;
+use ilateral\SilverStripe\ImportExport\BulkLoader\Sources\BulkLoaderSource;
 
 /**
  * The bulk loader allows large-scale uploads to SilverStripe via the ORM.

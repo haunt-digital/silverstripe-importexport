@@ -1,8 +1,8 @@
 <?php
 
-namespace ilateral\SilverStripe\ImportExport\bulkloader;
+namespace ilateral\SilverStripe\ImportExport\BulkLoader;
 
-use ilateral\SilverStripe\ImportExport\bulkloader\sources\CsvBulkLoaderSource;
+use ilateral\SilverStripe\ImportExport\BulkLoader\Sources\CsvBulkLoaderSource;
 
 /**
  * Backwards copatible CsvBulkLoader

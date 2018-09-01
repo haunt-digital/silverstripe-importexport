@@ -1,6 +1,6 @@
 <?php
 
-namespace ilateral\SilverStripe\ImportExport\bulkloader\sources;
+namespace ilateral\SilverStripe\ImportExport\BulkLoader\Sources;
 
 use IteratorAggregate;
 

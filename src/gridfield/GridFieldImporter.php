@@ -10,9 +10,9 @@ use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\Forms\GridField\GridField_FormAction;
 use SilverStripe\Forms\GridField\GridField_URLHandler;
 use SilverStripe\Forms\GridField\GridField_HTMLProvider;
-use ilateral\SilverStripe\ImportExport\bulkloader\BetterBulkLoader;
-use ilateral\SilverStripe\ImportExport\bulkloader\ListBulkLoader;
-use ilateral\SilverStripe\ImportExport\bulkloader\sources\CsvBulkLoaderSource;
+use ilateral\SilverStripe\ImportExport\BulkLoader\BetterBulkLoader;
+use ilateral\SilverStripe\ImportExport\BulkLoader\ListBulkLoader;
+use ilateral\SilverStripe\ImportExport\BulkLoader\Sources\CsvBulkLoaderSource;
 use ilateral\SilverStripe\ImportExport\gridfield\GridFieldImporter;
 
 /**

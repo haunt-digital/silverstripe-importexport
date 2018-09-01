@@ -1,13 +1,13 @@
 mappings:
   GridFieldImporter_Request: ilateral\SilverStripe\ImportExport\gridfield\GridFieldImporter_Request
   GridFieldImporter: ilateral\SilverStripe\ImportExport\gridfield\GridFieldImporter
-  BetterBulkLoader_Result: ilateral\SilverStripe\ImportExport\bulkloader\BetterBulkLoader_Result
-  ListBulkLoader: ilateral\SilverStripe\ImportExport\bulkloader\ListBulkLoader
-  BulkLoaderSource: ilateral\SilverStripe\ImportExport\bulkloader\sources\BulkLoaderSource
-  ArrayBulkLoaderSource: ilateral\SilverStripe\ImportExport\bulkloader\sources\ArrayBulkLoaderSource
-  CsvBulkLoaderSource: ilateral\SilverStripe\ImportExport\bulkloader\sources\CsvBulkLoaderSource
-  CsvBetterBulkLoader: ilateral\SilverStripe\ImportExport\bulkloader\CsvBetterBulkLoader
-  BetterBulkLoader: ilateral\SilverStripe\ImportExport\bulkloader\BetterBulkLoader
+  BetterBulkLoader_Result: ilateral\SilverStripe\ImportExport\BulkLoader\BetterBulkLoader_Result
+  ListBulkLoader: ilateral\SilverStripe\ImportExport\BulkLoader\ListBulkLoader
+  BulkLoaderSource: ilateral\SilverStripe\ImportExport\BulkLoader\Sources\BulkLoaderSource
+  ArrayBulkLoaderSource: ilateral\SilverStripe\ImportExport\BulkLoader\Sources\ArrayBulkLoaderSource
+  CsvBulkLoaderSource: ilateral\SilverStripe\ImportExport\BulkLoader\Sources\CsvBulkLoaderSource
+  CsvBetterBulkLoader: ilateral\SilverStripe\ImportExport\BulkLoader\CsvBetterBulkLoader
+  BetterBulkLoader: ilateral\SilverStripe\ImportExport\BulkLoader\BetterBulkLoader
   CSVFieldMapper: ilateral\SilverStripe\ImportExport\CSVFieldMapper
   CSVPreviewer: ilateral\SilverStripe\ImportExport\CSVPreviewer
   ImportAdminExtension: ilateral\SilverStripe\ImportExport\extensions\ImportAdminExtension

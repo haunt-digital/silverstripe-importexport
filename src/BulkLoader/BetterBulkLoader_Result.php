@@ -1,6 +1,6 @@
 <?php
 
-namespace ilateral\SilverStripe\ImportExport\bulkloader;
+namespace ilateral\SilverStripe\ImportExport\BulkLoader;
 
 use SilverStripe\Dev\BulkLoader_Result;
 
