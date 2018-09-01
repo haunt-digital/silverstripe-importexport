@@ -56,18 +56,20 @@ class GridFieldImporter_Request extends RequestHandler
      * RequestHandler allowed actions
      * @var array
      */
-    private static $allowed_actions = array(
-        'preview', 'upload', 'import'
-    );
+    private static $allowed_actions = [
+        'preview',
+        'upload',
+        'import'
+    ];
 
     /**
      * RequestHandler url => action map
      * @var array
      */
-    private static $url_handlers = array(
+    private static $url_handlers = [
         'upload!' => 'upload',
         '$Action/$FileID' => '$Action'
-    );
+    ];
 
     /**
      * Handler's constructor
@@ -148,10 +150,11 @@ class GridFieldImporter_Request extends RequestHandler
         );
         $form->Fields()->push(new HiddenField("BackURL", "BackURL", $this->getBackURL($request)));
         $form->setFormAction($this->Link('import').'/'.$file->ID);
+
         $content = ArrayData::create(array(
             'File' => $file,
             'MapperForm'=> $form
-        ))->renderWith('GridFieldImporter_preview');
+        ))->renderWith(GridFieldImporter::class . '_preview');
         $controller = $this->getToplevelController();
 
         return $controller->customise(array(
@@ -339,7 +342,7 @@ class GridFieldImporter_Request extends RequestHandler
      * @param SS_HTTPRequest $request
      * @return string
      */
-    protected function getBackURL()
+    public function getBackURL()
     {
         $request = $this->getRequest();
         if (!$request) {

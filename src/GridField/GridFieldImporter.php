@@ -122,8 +122,10 @@ class GridFieldImporter implements GridField_HTMLProvider, GridField_URLHandler
             'Button' => $button,
             'UploadField' => $uploadfield
         );
+
         $importerHTML = ArrayData::create($data)
-                    ->renderWith(GridFieldImporter::class);
+            ->renderWith(self::class);
+
         Requirements::javascript('importexport/javascript/GridFieldImporter.js');
 
         return array(
@@ -139,19 +141,23 @@ class GridFieldImporter implements GridField_HTMLProvider, GridField_URLHandler
      */
     public function getUploadField(GridField $gridField)
     {
-        $uploadField = UploadField::create(
-                $gridField->Name."_ImportUploadField", 'Upload CSV'
-            )
+        $name = $gridField->Name."_ImportUploadField";
+
+        $uploadField = UploadField::create($name, 'Upload CSV')
             ->setForm($gridField->getForm())
-            ->setConfig('url', $gridField->Link('importer/upload'))
-            ->setConfig('edit_url', $gridField->Link('importer/import'))
-            ->setConfig('allowedMaxFileNumber', 1)
-            ->setConfig('changeDetection', false)
-            ->setConfig('canPreviewFolder', false)
-            ->setConfig('canAttachExisting', false)
-            ->setConfig('overwriteWarning', false)
+            ->setSchemaData(
+                [
+                    'url' => $gridField->Link('importer/upload'),
+                    'edit_url' => $gridField->Link('importer/import'),
+                    'changeDetection' => false,
+                    'canPreviewFolder' => false,
+                    'canAttach' => false,
+                    'overwriteWarning' => false
+                ]
+            )
+            ->setAllowedMaxFileNumber(1)
             ->setAllowedExtensions(array('csv'))
-            ->setFolderName('csvImports') //TODO: don't store temp CSV in assets
+            ->setFolderName('csvImports')
             ->addExtraClass("import-upload-csv-field");
 
         return $uploadField;
@@ -159,14 +165,14 @@ class GridFieldImporter implements GridField_HTMLProvider, GridField_URLHandler
 
     public function getActions($gridField)
     {
-        return array('importer');
+        return ['importer'];
     }
 
     public function getURLHandlers($gridField)
     {
-        return array(
+        return [
             'importer' => 'handleImporter'
-        );
+        ];
     }
 
     /**

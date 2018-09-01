@@ -7,7 +7,7 @@
 	});
 
 	$.entwine('ss', function($) {
-		$('.ss-gridfield button.toggle-csv-fields.action').entwine({
+		$('.ss-gridfield .btn.toggle-csv-fields').entwine({
 			//show upload field when button is clicked
 			onclick: function(){
 				//change entwine scope
