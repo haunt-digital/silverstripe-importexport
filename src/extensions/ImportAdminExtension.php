@@ -1,5 +1,13 @@
 <?php
 
+namespace ilateral\SilverStripe\ImportExport\extensions;
+
+use Extension;
+use Config;
+use Member;
+use GridFieldImporter;
+
+
 class ImportAdminExtension extends Extension
 {
     

@@ -1,5 +1,10 @@
 <?php
 
+namespace ilateral\SilverStripe\ImportExport\bulkloader;
+
+use BulkLoader_Result;
+
+
 /**
  * Store result information about a BulkLoader import.
  */

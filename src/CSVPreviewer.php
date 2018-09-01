@@ -1,4 +1,12 @@
 <?php
+
+namespace ilateral\SilverStripe\ImportExport;
+
+use ViewableData;
+use CSVParser;
+use ArrayList;
+use ArrayData;
+
 /**
  * View the content of a given CSV file
  */

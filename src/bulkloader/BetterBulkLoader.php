@@ -1,4 +1,14 @@
 <?php
+
+namespace ilateral\SilverStripe\ImportExport\bulkloader;
+
+use BulkLoader;
+use BulkLoaderSource;
+use DataObject;
+use SiteTree;
+use ValidationException;
+use SS_List;
+
 /**
  * The bulk loader allows large-scale uploads to SilverStripe via the ORM.
  *

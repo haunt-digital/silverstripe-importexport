@@ -1,5 +1,10 @@
 <?php
 
+namespace ilateral\SilverStripe\ImportExport\bulkloader\sources;
+
+use ArrayIterator;
+
+
 /**
  * Array Bulk Loader Source
  * Useful for testing bulk loader. The output is the same as input.

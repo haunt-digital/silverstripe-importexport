@@ -1,5 +1,10 @@
 <?php
 
+namespace ilateral\SilverStripe\ImportExport\bulkloader\sources;
+
+use IteratorAggregate;
+
+
 /**
  * An abstract source to bulk load records from.
  * Provides an iterator for retrieving records from.

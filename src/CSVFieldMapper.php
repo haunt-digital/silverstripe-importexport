@@ -1,5 +1,12 @@
 <?php
 
+namespace ilateral\SilverStripe\ImportExport;
+
+use Arraylist;
+use ArrayData;
+use DropdownField;
+
+
 /**
  * A visual interface for mapping field names.
  */

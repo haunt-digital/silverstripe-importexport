@@ -1,5 +1,10 @@
 <?php
 
+namespace ilateral\SilverStripe\ImportExport\bulkloader;
+
+use DataList;
+
+
 /**
  * Peforms bulk loading, but works with a given DataList.
  */
