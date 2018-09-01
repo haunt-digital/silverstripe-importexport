@@ -108,14 +108,16 @@ class GridFieldImporter_Request extends RequestHandler
         $body = array_shift($body);
         //add extra data
         $body['import_url'] = Controller::join_links(
-           $this->Link('preview'), $body['id'],
-           // Also pull the back URL from the current request so we can persist this particular URL through the following pages.
-           "?BackURL=" . $this->getBackURL($request)
+            $this->Link('preview'), $body['id'],
+            // Also pull the back URL from the current request so we can persist
+            // this particular URL through the following pages.
+            "?BackURL=" . $this->getBackURL($request)
         );
         //don't return buttons at all
         unset($body['buttons']);
+
         //re-encode
-        $response = new SS_HTTPResponse(Convert::raw2json(array($body)));
+        $response = HTTPResponse::create(Convert::raw2json([$body]));
 
         return $response;
     }
@@ -261,7 +263,7 @@ class GridFieldImporter_Request extends RequestHandler
      *
      * @link UploadField->fileexists()
      */
-    public function fileexists(SS_HTTPRequest $request)
+    public function fileexists(HTTPRequest $request)
     {
         $uploadField = $this->getUploadField();
         return $uploadField->fileexists($request);
@@ -274,7 +276,9 @@ class GridFieldImporter_Request extends RequestHandler
     public function Link($action = null)
     {
         return Controller::join_links(
-            $this->gridField->Link(), $this->urlSegment, $action
+            $this->gridField->Link(),
+            $this->urlSegment,
+            $action
         );
     }
 
@@ -302,8 +306,8 @@ class GridFieldImporter_Request extends RequestHandler
     {
         $mapping = array_filter($mapping);
         if ($mapping && !empty($mapping)) {
-            $cache = SS_Cache::factory('gridfieldimporter');
-            $cache->save(serialize($mapping), $this->cacheKey());
+            $cache = Injector::inst()->get(CacheInterface::class .'.gridfieldimporter');
+            $cache->set($this->cacheKey(), serialize($mapping));
         }
     }
 
@@ -312,8 +316,8 @@ class GridFieldImporter_Request extends RequestHandler
      */
     protected function getCachedMapping()
     {
-        $cache = SS_Cache::factory('gridfieldimporter');
-        if ($result = $cache->load($this->cacheKey())) {
+        $cache = Injector::inst()->get(CacheInterface::class .'.gridfieldimporter');
+        if ($result = $cache->get($this->cacheKey())) {
             return unserialize($result);
         }
     }
@@ -326,32 +330,40 @@ class GridFieldImporter_Request extends RequestHandler
         return md5($this->gridField->Link());
     }
 
-   /**
-    * Get's the previous URL that lead up to the current request.
-    *
-    * NOTE: Honestly, this should be built into SS_HTTPRequest, but we can't depend on that right now... so instead,
-    * this is being copied verbatim from Controller (in the framework).
-    *
-    * @param SS_HTTPRequest $request
-    * @return string
-    */
-   protected function getBackURL(SS_HTTPRequest $request) {
-      // Initialize a sane default (basically redirects to root admin URL).
-      $controller = $this->getToplevelController();
-      $url = method_exists($this->requestHandler, "Link") ?
-            $this->requestHandler->Link() :
-            $controller->Link();
+    /**
+     * Get's the previous URL that lead up to the current request.
+     *
+     * NOTE: Honestly, this should be built into SS_HTTPRequest, but we can't depend on that right now... so instead,
+     * this is being copied verbatim from Controller (in the framework).
+     *
+     * @param SS_HTTPRequest $request
+     * @return string
+     */
+    protected function getBackURL()
+    {
+        $request = $this->getRequest();
+        if (!$request) {
+            return null;
+        }
 
-      // Try to parse out a back URL using standard framework technique.
-      if($request->requestVar('BackURL')) {
-         $url = $request->requestVar('BackURL');
-      } else if($request->isAjax() && $request->getHeader('X-Backurl')) {
-         $url = $request->getHeader('X-Backurl');
-      } else if($request->getHeader('Referer')) {
-         $url = $request->getHeader('Referer');
-      }
+        // Initialize a sane default (basically redirects to root admin URL).
+        $controller = $this->getToplevelController();
 
-      return $url;
-   }
+        if (method_exists($this->requestHandler, "Link")) {
+            $url = $this->requestHandler->Link();
+        } else {
+            $url = $controller->Link();
+        }
 
+        // Try to parse out a back URL using standard framework technique.
+        if ($request->requestVar('BackURL')) {
+            $url = $request->requestVar('BackURL');
+        } elseif ($request->isAjax() && $request->getHeader('X-Backurl')) {
+            $url = $request->getHeader('X-Backurl');
+        } elseif ($request->getHeader('Referer')) {
+            $url = $request->getHeader('Referer');
+        }
+
+        return $url;
+    }
 }
