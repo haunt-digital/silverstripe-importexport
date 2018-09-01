@@ -16,5 +16,11 @@
     },
      "extra": {
         "installer-name": "importexport"
+    },
+    "autoload": {
+        "psr-4": {
+            "ilateral\\SilverStripe\\ImportExport": "src/",
+            "ilateral\\SilverStripe\\ImportExport\\Tests": "tests/"
+        }
     }
 }
