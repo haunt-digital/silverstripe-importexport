@@ -1,4 +1,4 @@
-<% require css(importexport/css/csvpreviewer.css) %>
+<% require css(importexport/client/dist/styles/main.css) %>
 <div class="csvpreviewer">
 	<table class="csvpreviewer_table">
 		<thead>

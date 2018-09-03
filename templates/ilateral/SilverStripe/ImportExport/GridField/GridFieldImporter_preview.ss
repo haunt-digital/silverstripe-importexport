@@ -1,4 +1,5 @@
-<% require css(importexport/css/GridFieldImporter_preview.css) %>
+<% require css(importexport/client/dist/styles/main.css) %>
+
 <div class="cms-content center" data-layout-type="border" data-pjax-fragment="Content">
 	<div class="cms-content-header north">
 		<h2 id="page-title-heading">

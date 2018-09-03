@@ -126,7 +126,8 @@ class GridFieldImporter implements GridField_HTMLProvider, GridField_URLHandler
         $importerHTML = ArrayData::create($data)
             ->renderWith(self::class);
 
-        Requirements::javascript('importexport/javascript/GridFieldImporter.js');
+        /** @todo use ResourceURL */
+        Requirements::javascript('importexport/client/dist/js/main.js');
 
         return array(
             $this->targetFragment => $importerHTML

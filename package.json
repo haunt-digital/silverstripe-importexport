@@ -1,0 +1,26 @@
+{
+  "name": "ilateral-silverstripe-import-export",
+  "version": "2.0.0",
+  "description": "Import/Export module for SilverStripe CMS",
+  "engines": {
+    "node": "^6.x"
+  },
+  "scripts": {
+    "build": "cross-env NODE_ENV=production webpack -p --bail --progress",
+    "watch": "cross-env NODE_ENV=development webpack --watch --progress",
+    "tx": "tx push --source && tx pull --all && node transifex.js",
+    "dist": "cross-env npm run tx && npm run build"
+  },
+  "keywords": [
+    "silverstripe"
+  ],
+  "dependencies": {
+    "webpack": "^3.10"
+  },
+  "devDependencies": {
+    "@silverstripe/webpack-config": "^0.7",
+    "babel-loader": "7",
+    "cross-env": "^5.2.0",
+    "sass-loader": "^7.1.0"
+  }
+}
