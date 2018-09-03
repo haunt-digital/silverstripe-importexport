@@ -170,6 +170,6 @@ class GridFieldImporter implements GridField_HTMLProvider, GridField_URLHandler
         $controller = $gridField->getForm()->getController();
         $handler    = new GridFieldImporter_Request($gridField, $this, $controller);
 
-        return $handler->handleRequest($request, DataModel::inst());
+        return $handler->handleRequest($request);
     }
 }
