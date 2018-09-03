@@ -68,7 +68,9 @@
 /***/ "./client/src/js/GridFieldImporter.js":
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(jQuery) {(function ($) {
+/* WEBPACK VAR INJECTION */(function(jQuery) {__webpack_require__("./client/src/js/uploadreducer.js");
+
+(function ($) {
 	$("div.csv-importer").entwine({
 		onmatch: function onmatch() {
 			this.hide();
@@ -84,17 +86,50 @@
 			}
 		});
 	});
-
-	$(".import-upload-csv-field").entwine({
-		onmatch: function onmatch() {
-			this.on('fileuploaddone', function (e, data) {
-				e.preventDefault();
-				window.location.href = data.result[0].import_url;
-			});
-		}
-	});
 })(jQuery);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("jquery")))
+
+/***/ }),
+
+/***/ "./client/src/js/uploadreducer.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lib_Injector__ = __webpack_require__("lib/Injector");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lib_Injector___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lib_Injector__);
+
+
+var importExportUploadFieldReducer = function importExportUploadFieldReducer(originalReducer) {
+    return function (globalState) {
+        return function (state, _ref) {
+            var type = _ref.type,
+                payload = _ref.payload;
+
+            switch (type) {
+                case 'UPLOADFIELD_UPLOAD_SUCCESS':
+                    {
+
+                        var redirectURL = payload.json.import_url;
+                        console.log(globalState);
+                        if (redirectURL) {
+                            window.location.href = redirectURL;
+                        }
+                        return originalReducer(state, { type: type, payload: payload });
+                    }
+
+                default:
+                    {
+                        return originalReducer(state, { type: type, payload: payload });
+                    }
+            }
+        };
+    };
+};
+
+__WEBPACK_IMPORTED_MODULE_0_lib_Injector___default.a.transform('importExportUploaderCustom', function (updater) {
+    updater.reducer('assetAdmin', importExportUploadFieldReducer);
+});
 
 /***/ }),
 
@@ -110,6 +145,13 @@ module.exports = __webpack_require__("./client/src/js/GridFieldImporter.js");
 /***/ (function(module, exports) {
 
 module.exports = jQuery;
+
+/***/ }),
+
+/***/ "lib/Injector":
+/***/ (function(module, exports) {
+
+module.exports = Injector;
 
 /***/ })
 
