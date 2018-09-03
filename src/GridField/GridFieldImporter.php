@@ -13,7 +13,6 @@ use SilverStripe\Forms\GridField\GridField_HTMLProvider;
 use ilateral\SilverStripe\ImportExport\BulkLoader\BetterBulkLoader;
 use ilateral\SilverStripe\ImportExport\BulkLoader\ListBulkLoader;
 use ilateral\SilverStripe\ImportExport\BulkLoader\Sources\CsvBulkLoaderSource;
-use ilateral\SilverStripe\ImportExport\GridField\GridFieldImporter;
 
 /**
  * Adds a way to import data to the GridField's DataList
