@@ -8,6 +8,8 @@ const importExportUploadFieldReducer = (originalReducer) => (globalState) => (st
             let redirectURL = payload.json.import_url;
             console.log(globalState);
             if (redirectURL) {
+                //remove changed state of the current form for redirecting without confirmation
+                jQuery('#' + payload.fieldId).closest('form').removeClass('changed');
                 window.location.href = redirectURL;
             }
             return originalReducer(state, { type, payload });
