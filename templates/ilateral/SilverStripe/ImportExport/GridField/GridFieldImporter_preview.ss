@@ -1,4 +1,4 @@
-<% require css(importexport/client/dist/styles/main.css) %>
+<% require css(i-lateral/silverstripe-importexport:client/dist/styles/main.css) %>
 
 <div class="cms-content fill-height flexbox-area-grow cms-tabset center $BaseCSSClasses" data-layout-type="border" data-pjax-fragment="Content">
 	<div class="toolbar toolbar--north cms-content-header vertical-align-items">

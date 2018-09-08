@@ -126,7 +126,7 @@ class GridFieldImporter implements GridField_HTMLProvider, GridField_URLHandler
             ->renderWith(self::class);
 
         /** @todo use ResourceURL */
-        Requirements::javascript('importexport/client/dist/js/main.js');
+        Requirements::javascript('i-lateral/silverstripe-importexport:client/dist/js/main.js');
 
         return array(
             $this->targetFragment => $importerHTML
