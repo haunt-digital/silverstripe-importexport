@@ -97,6 +97,24 @@ class GridFieldImporter_Request extends RequestHandler
     }
 
     /**
+     * Create a temporary file from a data stream and return
+     * it's filepath
+     * 
+     * @param string $stream Data stream
+     * 
+     * @return string
+     */
+    protected function tempFileFromStream($stream)
+    {
+        // create a temporary file and stream the CSV file contents
+        // into it.
+        $file = tempnam(sys_get_temp_dir(), 'impexp');
+        file_put_contents($file, $stream);
+
+        return $file;
+    }
+
+    /**
      * Upload the given file, and import or start preview.
      * @param  SS_HTTPRequest $request
      * @return string
@@ -137,14 +155,12 @@ class GridFieldImporter_Request extends RequestHandler
             return "file not found";
         }
 
-        // create a temporary file and stream the CSV file contents
-        // into it.
-        $temp_file = tempnam(sys_get_temp_dir(), 'impexp');
-        file_put_contents($temp_file, $file->getStream());
+        $temp_file = $this->tempFileFromStream($file->getStream());
 
         //TODO: validate file?
         $mapper = new CSVFieldMapper($temp_file);
         $mapper->setMappableCols($this->getMappableColumns());
+
         //load previously stored values
         if ($cachedmapping = $this->getCachedMapping()) {
             $mapper->loadDataFrom($cachedmapping);
@@ -218,7 +234,7 @@ class GridFieldImporter_Request extends RequestHandler
      * Import the current file
      * @param  SS_HTTPRequest $request
      */
-    public function import(SS_HTTPRequest $request)
+    public function import(HTTPRequest $request)
     {
         $hasheader = (bool)$request->postVar('HasHeader');
         $cleardata = $this->component->getCanClearData() ?
@@ -230,13 +246,16 @@ class GridFieldImporter_Request extends RequestHandler
             if (!$file) {
                 return "file not found";
             }
+
+            $temp_file = $this->tempFileFromStream($file->getStream());
+
             $colmap = Convert::raw2sql($request->postVar('mappings'));
             if ($colmap) {
                 //save mapping to cache
                 $this->cacheMapping($colmap);
                 //do import
                 $results = $this->importFile(
-                    $file->getFullPath(),
+                    $temp_file,
                     $colmap,
                     $hasheader,
                     $cleardata

@@ -423,7 +423,8 @@ class BetterBulkLoader extends BulkLoader
         if (strpos($field, '.') !== false) {
             list($field, $columnName) = explode('.', $field);
         }
-        $has_ones = singleton($this->objectClass)->has_one();
+        $has_ones = Config::inst()->get($this->objectClass, "has_one");
+
         //check if relation is present in has ones
         return isset($has_ones[$field]);
     }
