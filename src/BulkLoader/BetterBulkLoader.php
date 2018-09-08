@@ -6,6 +6,7 @@ use SilverStripe\ORM\SS_List;
 use SilverStripe\Dev\BulkLoader;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\CMS\Model\SiteTree;
+use SilverStripe\Core\Config\Config;
 use SilverStripe\ORM\ValidationException;
 use ilateral\SilverStripe\ImportExport\BulkLoader\Sources\BulkLoaderSource;
 
@@ -526,9 +527,11 @@ class BetterBulkLoader extends BulkLoader
     public function scaffoldMappableFields($includerelations = true)
     {
         $map = $this->getMappableFieldsForClass($this->objectClass);
+        $has_ones = Config::inst()->get($this->objectClass, "has_one");
+
         //set up 'dot notation' (Relation.Field) style mappings
         if ($includerelations) {
-            if ($has_ones = singleton($this->objectClass)->has_one()) {
+            if (count($has_ones)) {
                 foreach ($has_ones as $relationship => $type) {
                     $fields = $this->getMappableFieldsForClass($type);
                     foreach ($fields as $field => $title) {
@@ -549,10 +552,10 @@ class BetterBulkLoader extends BulkLoader
      */
     protected function getMappableFieldsForClass($class)
     {
-        $singleton = singleton($class);
+        $singleton = $class::singleton();
         $fields = (array)$singleton->fieldLabels(false);
         foreach ($fields as $field => $label) {
-            if (!$singleton->db($field)) {
+            if (!$singleton->dbObject($field)) {
                 unset($fields[$field]);
             }
         }
