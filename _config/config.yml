@@ -4,3 +4,8 @@ Name: importexportconfig
 SilverStripe\Admin\ModelAdmin:
   extensions:
     -  ilateral\SilverStripe\ImportExport\Extensions\ImportAdminExtension
+SilverStripe\Core\Injector\Injector:
+  Psr\SimpleCache\CacheInterface.gridfieldimporter:
+    factory: SilverStripe\Core\Cache\CacheFactory
+    constructor:
+      namespace: "gridfieldimporter"
