@@ -136,8 +136,14 @@ class GridFieldImporter_Request extends RequestHandler
         if (!$file) {
             return "file not found";
         }
+
+        // create a temporary file and stream the CSV file contents
+        // into it.
+        $temp_file = tempnam(sys_get_temp_dir(), 'impexp');
+        file_put_contents($temp_file, $file->getStream());
+
         //TODO: validate file?
-        $mapper = new CSVFieldMapper($file->getFullPath());
+        $mapper = new CSVFieldMapper($temp_file);
         $mapper->setMappableCols($this->getMappableColumns());
         //load previously stored values
         if ($cachedmapping = $this->getCachedMapping()) {
