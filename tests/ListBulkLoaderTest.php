@@ -1,22 +1,31 @@
 <?php
 
+namespace ilateral\SilverStripe\ImportExport\Tests;
+
+use SilverStripe\Dev\TestOnly;
+use SilverStripe\ORM\DataObject;
+use SilverStripe\Dev\SapphireTest;
+use ilateral\SilverStripe\ImportExport\Tests\Model\Person;
+use ilateral\SilverStripe\ImportExport\BulkLoader\ListBulkLoader;
+use ilateral\SilverStripe\ImportExport\BulkLoader\Sources\ArrayBulkLoaderSource;
+
 class ListBulkLoaderTest extends SapphireTest
 {
 
-    protected $extraDataObjects = array(
-        'ListBulkLoaderTest_Person'
-    );
+    protected static $extra_dataobjects = [
+        Person::class
+    ];
 
     public function testImport()
     {
-        $parent = new ListBulkLoaderTest_Person(
-            array("Name" => "George", "Age" => 55)
+        $parent = Person::create(
+            ["Name" => "George", "Age" => 55]
         );
         $parent->write();
 
         //add one existing child
-        $existingchild = new ListBulkLoaderTest_Person(
-            array("Name" => "Xavier", "Age" => 13)
+        $existingchild = Person::create(
+            ["Name" => "Xavier", "Age" => 13]
         );
         $existingchild->write();
         $parent->Children()->add($existingchild);
@@ -39,32 +48,12 @@ class ListBulkLoaderTest extends SapphireTest
         $this->assertEquals(2, $result->CreatedCount(), "Records created");
         $this->assertEquals(1, $result->UpdatedCount(), "Record updated");
         $this->assertEquals(3, $result->Count(), "Records imported");
-        $this->assertEquals(4, ListBulkLoaderTest_Person::get()->count(), "Total DataObjects is now 4");
+        $this->assertEquals(4, Person::get()->count(), "Total DataObjects is now 4");
         $this->assertEquals(3, $parent->Children()->count(), "Parent has 3 children");
     }
 
     public function testDeleteExisting()
     {
         $this->markTestIncomplete("test deletion");
-
-        //data list should be emptied
-        //should not delete unrelated records
     }
-}
-
-class ListBulkLoaderTest_Person extends DataObject implements TestOnly
-{
-
-    private static $db = array(
-        "Name" => "Varchar",
-        "Age" => "Int"
-    );
-
-    private static $has_one = array(
-        "Parent" => "ListBulkLoaderTest_Person"
-    );
-
-    private static $has_many = array(
-        "Children" => "ListBulkLoaderTest_Person"
-    );
 }

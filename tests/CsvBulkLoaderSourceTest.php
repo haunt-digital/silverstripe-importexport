@@ -1,5 +1,10 @@
 <?php
 
+namespace ilateral\SilverStripe\ImportExport\Tests;
+
+use SilverStripe\Dev\SapphireTest;
+use ilateral\SilverStripe\ImportExport\BulkLoader\Sources\CsvBulkLoaderSource;
+
 class CsvBulkLoaderSourceTest extends SapphireTest
 {
 

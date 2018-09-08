@@ -1,18 +1,28 @@
 <?php
 
+namespace ilateral\SilverStripe\ImportExport\Tests;
+
+use SilverStripe\Dev\TestOnly;
+use SilverStripe\ORM\DataObject;
+use SilverStripe\Dev\SapphireTest;
+use ilateral\SilverStripe\ImportExport\Tests\Model\Person;
+use ilateral\SilverStripe\ImportExport\Tests\Model\Country;
+use ilateral\SilverStripe\ImportExport\BulkLoader\BetterBulkLoader;
+use ilateral\SilverStripe\ImportExport\BulkLoader\Sources\ArrayBulkLoaderSource;
+
 class BulkLoaderTest extends SapphireTest
 {
     
-    protected static $fixture_file = 'importexport/tests/fixtures/BulkLoaderTest.yaml';
+    protected static $fixture_file = 'fixtures/BulkLoaderTest.yaml';
 
-    protected $extraDataObjects = array(
-        'BulkLoaderTest_Person',
-        'BulkLoaderTest_Country'
-    );
+    protected static $extra_dataobjects = [
+        Person::class,
+        Country::class
+    ];
 
     public function testLoading()
     {
-        $loader = new BetterBulkLoader("BulkLoaderTest_Person");
+        $loader = new BetterBulkLoader(Person::class);
 
         $loader->columnMap = array(
             "first name" => "FirstName",
@@ -54,7 +64,7 @@ class BulkLoaderTest extends SapphireTest
         $this->assertEquals($results->SkippedCount(), 0);
         $this->assertEquals($results->Count(), 2);
 
-        $joe = BulkLoaderTest_Person::get()
+        $joe = Person::get()
                 ->filter("FirstName", "joe")
                 ->first();
 
@@ -68,15 +78,15 @@ class BulkLoaderTest extends SapphireTest
     public function testLoadUpdatesOnly()
     {
         //Set up some existing dataobjects
-        $nz = BulkLoaderTest_Country::get()->find('Code','NZ');
-        $au = BulkLoaderTest_Country::get()->find('Code','AU');
+        $nz = Country::get()->find('Code','NZ');
+        $au = Country::get()->find('Code','AU');
 
-BulkLoaderTest_Person::create(array("FirstName" => "joe", "Surname" => "Kiwi", "Age" => "62", "CountryID" => $nz->ID))->write();
-       BulkLoaderTest_Person::create(array("FirstName" => "bruce", "Surname" => "Aussie", "Age" => "24", "CountryID" => $au->ID))->write();
+        Person::create(array("FirstName" => "joe", "Surname" => "Kiwi", "Age" => "62", "CountryID" => $nz->ID))->write();
+        Person::create(array("FirstName" => "bruce", "Surname" => "Aussie", "Age" => "24", "CountryID" => $au->ID))->write();
 
-        $this->assertEquals(2,BulkLoaderTest_Person::get()->Count(), "Two people exist in BulkLoaderTest_Person class");
+        $this->assertEquals(2, Person::get()->Count(), "Two people exist in Person class");
         
-        $loader = new BetterBulkLoader("BulkLoaderTest_Person");
+        $loader = new BetterBulkLoader(Person::class);
         $loader->addNewRecords = false;  // don't add new records from source
         $loader->columnMap = array(
             "firstname" => "FirstName",
@@ -108,15 +118,15 @@ BulkLoaderTest_Person::create(array("FirstName" => "joe", "Surname" => "Kiwi", "
         $this->assertEquals($results->SkippedCount(), 2);
         $this->assertEquals($results->Count(), 2);
         
-        $this->assertEquals(2, BulkLoaderTest_Person::get()->Count(), 'Should be two instances');
-        $this->assertNull(BulkLoaderTest_Person::get()->find('FirstName', 'NotEntered'), 'New item "NotEntered" should not be added to BulkLoaderTest_Person');
-        $this->assertNull(BulkLoaderTest_Person::get()->find('FirstName', 'NotEntered2'), 'New item "NotEntered2" should not be added to BulkLoaderTest_Person');
+        $this->assertEquals(2, Person::get()->Count(), 'Should be two instances');
+        $this->assertNull(Person::get()->find('FirstName', 'NotEntered'), 'New item "NotEntered" should not be added to Person');
+        $this->assertNull(Person::get()->find('FirstName', 'NotEntered2'), 'New item "NotEntered2" should not be added to Person');
 
-        $joe = BulkLoaderTest_Person::get()->find('FirstName', 'joe');
+        $joe = Person::get()->find('FirstName', 'joe');
         $this->assertSame('63', $joe->Age, 'Joe should have the age of 63');
         $this->assertSame('Australia', $joe->Country()->Title, 'Joe should have the CountryID assigned to Australia');
 
-        $bruce = BulkLoaderTest_Person::get()->find('FirstName', 'bruce');
+        $bruce = Person::get()->find('FirstName', 'bruce');
         $this->assertSame('25', $bruce->Age, 'Bruce should have aged by one year to 25');
         $this->assertSame('Aussie', $bruce->Surname, 'Bruce should still have the surname of Aussie');
         $this->assertSame('Australia', $bruce->Country()->Title, 'Bruce should still have the CountryID assigned for Australia');
@@ -129,7 +139,7 @@ BulkLoaderTest_Person::create(array("FirstName" => "joe", "Surname" => "Kiwi", "
 
     public function testTransformCallback()
     {
-        $loader = new BetterBulkLoader("BulkLoaderTest_Person");
+        $loader = new BetterBulkLoader(Person::class);
         $data = array(
             array("FirstName" => "joe", "age" => "62", "country" => "NZ")
         );
@@ -149,7 +159,7 @@ BulkLoaderTest_Person::create(array("FirstName" => "joe", "Surname" => "Kiwi", "
 
     public function testRequiredFields()
     {
-        $loader = new BetterBulkLoader("BulkLoaderTest_Person");
+        $loader = new BetterBulkLoader(Person::class);
         $data = array(
             array("FirstName" => "joe", "Surname" => "Bloggs"), //valid
             array("FirstName" => 0, "Surname" => "Bloggs"), //invalid firstname
@@ -168,27 +178,4 @@ BulkLoaderTest_Person::create(array("FirstName" => "joe", "Surname" => "Kiwi", "
         $this->assertEquals(2, $results->CreatedCount(), "Created 2");
         $this->assertEquals(4, $results->SkippedCount(), "Skipped 4");
     }
-}
-
-class BulkLoaderTest_Person extends DataObject implements TestOnly
-{
-
-    private static $db = array(
-        "FirstName" => "Varchar",
-        "Surname" => "Varchar",
-        "Age" => "Int"
-    );
-
-    private static $has_one = array(
-        "Country" => "BulkLoaderTest_Country"
-    );
-}
-
-class BulkLoaderTest_Country extends Dataobject implements TestOnly
-{
-
-    private static $db = array(
-        "Title" => "Varchar",
-        "Code" => "Varchar"
-    );
 }

@@ -5,7 +5,7 @@ namespace ilateral\SilverStripe\ImportExport\Tests\BulkLoader;
 use SilverStripe\Dev\TestOnly;
 use SilverStripe\Dev\CsvBulkLoader;
 
-class BetterBulkLoaderTest_CustomLoader extends CsvBulkLoader implements TestOnly
+class CustomLoader extends CsvBulkLoader implements TestOnly
 {
     
     public function importFirstName(&$obj, $val, $record)

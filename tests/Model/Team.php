@@ -8,8 +8,6 @@ use ilateral\SilverStripe\ImportExport\Tests\Model\BetterBulkLoaderTest_Player;
 
 class Team extends DataObject implements TestOnly
 {
-    private static $table_name = "Team";
-
     private static $db = array(
         'Title' => 'Varchar(255)',
         'TeamSize' => 'Int',

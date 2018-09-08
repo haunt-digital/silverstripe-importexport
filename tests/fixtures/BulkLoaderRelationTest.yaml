@@ -8,5 +8,5 @@ ilateral\SilverStripe\ImportExport\Tests\Model\Course:
 
 ilateral\SilverStripe\ImportExport\Tests\Model\CourseSelection:
   tech102:
-    Course: =>BulkLoaderRelationTest_Course.tech102
+    Course: =>ilateral\SilverStripe\ImportExport\Tests\Model\Course.tech102
     Term: 3

@@ -1,14 +1,26 @@
 <?php
 
+namespace ilateral\SilverStripe\ImportExport\Tests;
+
+use SilverStripe\Dev\TestOnly;
+use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\DataObject;
+use SilverStripe\Dev\SapphireTest;
+use ilateral\SilverStripe\ImportExport\Tests\Model\Course;
+use ilateral\SilverStripe\ImportExport\BulkLoader\BetterBulkLoader;
+use ilateral\SilverStripe\ImportExport\Tests\Model\CourseSelection;
+use ilateral\SilverStripe\ImportExport\BulkLoader\Sources\ArrayBulkLoaderSource;
+
+
 class BulkLoaderRelationTest extends SapphireTest
 {
 
-    protected static $fixture_file = 'importexport/tests/fixtures/BulkLoaderRelationTest.yaml';
+    protected static $fixture_file = 'fixtures/BulkLoaderRelationTest.yaml';
 
-    protected $extraDataObjects = array(
-        'BulkLoaderRelationTest_CourseSelection',
-        'BulkLoaderRelationTest_Course'
-    );
+    protected static $extra_dataobjects = [
+        CourseSelection::class,
+        Course::class
+    ];
 
     protected $loader;
     
@@ -24,7 +36,7 @@ class BulkLoaderRelationTest extends SapphireTest
              //relation does not exist, no record
             array("Course.Title" => "Geometry 722", "Term" => 1)
         );
-        $this->loader = new BetterBulkLoader("BulkLoaderRelationTest_CourseSelection");
+        $this->loader = new BetterBulkLoader(CourseSelection::class);
         $this->loader->setSource(
             new ArrayBulkLoaderSource($data)
         );
@@ -37,13 +49,21 @@ class BulkLoaderRelationTest extends SapphireTest
     public function testEmptyBehaviour()
     {
         $results = $this->loader->load();
-        $this->assertEquals(3, $results->CreatedCount(),
-            "objs have been created from all records");
-        $this->assertEquals(4, BulkLoaderRelationTest_Course::get()->count(),
-            "New Geometry 722 course created");
-        $this->assertEquals(4, BulkLoaderRelationTest_CourseSelection::get()
-                    ->filter("CourseID:GreaterThan", 0)->count(),
-                "we have gone from 1 to 4 linked records");
+        $this->assertEquals(
+            3,
+            $results->CreatedCount(),
+            "objs have been created from all records"
+        );
+        $this->assertEquals(
+            4,
+            Course::get()->count(),
+            "New Geometry 722 course created"
+        );
+        $this->assertEquals(
+            4,
+            CourseSelection::get()->filter("CourseID:GreaterThan", 0)->count(),
+            "we have gone from 1 to 4 linked records"
+        );
     }
 
     public function testLinkAndCreateRelations()
@@ -55,9 +75,9 @@ class BulkLoaderRelationTest extends SapphireTest
         $results = $this->loader->load();
         $this->assertEquals(3, $results->CreatedCount(),
             "objs have been created from all records");
-        $this->assertEquals(4, BulkLoaderRelationTest_Course::get()->count(),
+        $this->assertEquals(4, Course::get()->count(),
             "New Geometry 722 course created");
-        $this->assertEquals(4, BulkLoaderRelationTest_CourseSelection::get()
+        $this->assertEquals(4, CourseSelection::get()
                     ->filter("CourseID:GreaterThan", 0)->count(),
                 "we have gone from 1 to 4 linked records");
     }
@@ -71,9 +91,9 @@ class BulkLoaderRelationTest extends SapphireTest
         $results = $this->loader->load();
         $this->assertEquals(3, $results->CreatedCount(),
             "objs have been created from all records");
-        $this->assertEquals(3, BulkLoaderRelationTest_Course::get()->count(),
+        $this->assertEquals(3, Course::get()->count(),
             "No extra courses created");
-        $this->assertEquals(1, BulkLoaderRelationTest_CourseSelection::get()
+        $this->assertEquals(1, CourseSelection::get()
                     ->filter("CourseID:GreaterThan", 0)->count(),
             "No records have been linked");
     }
@@ -87,10 +107,10 @@ class BulkLoaderRelationTest extends SapphireTest
         $results = $this->loader->load();
         $this->assertEquals(3, $results->CreatedCount(),
             "objs have been created from all records");
-        $this->assertEquals(3, BulkLoaderRelationTest_Course::get()->count(),
+        $this->assertEquals(3, Course::get()->count(),
             "number of courses remains the same");
         //asserting 3 and not 2 because we have no duplicate checks
-        $this->assertEquals(3, BulkLoaderRelationTest_CourseSelection::get()
+        $this->assertEquals(3, CourseSelection::get()
                     ->filter("CourseID:GreaterThan", 0)->count(),
                 "we have gone from 1 to 3 linked records");
     }
@@ -104,9 +124,9 @@ class BulkLoaderRelationTest extends SapphireTest
         $results = $this->loader->load();
         $this->assertEquals(3, $results->CreatedCount(),
             "objs have been created from all records");
-        $this->assertEquals(4, BulkLoaderRelationTest_Course::get()->count(),
+        $this->assertEquals(4, Course::get()->count(),
             "New Geometry 722 course created");
-        $this->assertEquals(2, BulkLoaderRelationTest_CourseSelection::get()
+        $this->assertEquals(2, CourseSelection::get()
                     ->filter("CourseID:GreaterThan", 0)->count(),
                 "Only the created object is linked");
     }
@@ -130,7 +150,7 @@ class BulkLoaderRelationTest extends SapphireTest
 
     public function testRelationList()
     {
-        $list = new ArrayList();
+        $list = ArrayList::create();
         $this->loader->transforms['Course.Title'] = array(
             'create' => true,
             'link' => true,
@@ -150,26 +170,4 @@ class BulkLoaderRelationTest extends SapphireTest
     {
         $this->markTestIncomplete("Required relations should be checked");
     }
-}
-
-//primary object we are loading records into
-class BulkLoaderRelationTest_CourseSelection extends DataObject implements TestOnly
-{
-
-    private static $db = array(
-        "Term" => "Int"
-    );
-
-    private static $has_one = array(
-        "Course" => "BulkLoaderRelationTest_Course"
-    );
-}
-
-//related object
-class BulkLoaderRelationTest_Course extends DataObject implements TestOnly
-{
-    
-    private static $db = array(
-        "Title" => "Varchar"
-    );
 }

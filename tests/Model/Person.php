@@ -7,8 +7,6 @@ use SilverStripe\ORM\DataObject;
 
 class Person extends DataObject implements TestOnly
 {
-    private static $table_name = "Person";
-
     private static $db = array(
         "FirstName" => "Varchar",
         "Surname" => "Varchar",

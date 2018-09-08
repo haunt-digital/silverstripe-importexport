@@ -1,7 +1,7 @@
 ilateral\SilverStripe\ImportExport\Tests\Model\Country:
-	nz:
-		Title: New Zealand
-		Code: NZ
-	au:
-		Title: Australia
-		Code: AU
+  nz:
+    Title: New Zealand
+    Code: NZ
+  au:
+    Title: Australia
+    Code: AU
