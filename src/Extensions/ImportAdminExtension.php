@@ -52,7 +52,7 @@ class ImportAdminExtension extends Extension
             }
             
             //add the component
-            $config->addComponent(new GridFieldImporter('before'));
+            $config->addComponent(new GridFieldImporter('buttons-before-left'));
         }
     }
 }

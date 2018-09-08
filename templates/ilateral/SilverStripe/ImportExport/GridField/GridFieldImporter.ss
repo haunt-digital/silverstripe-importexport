@@ -1,3 +1,5 @@
+<% require css(i-lateral/silverstripe-importexport:client/dist/styles/main.css) %>
+
 <span class="btn btn-secondary font-icon-upload btn--icon-large toggle-csv-fields no-ajax">
 	<%t TableListField.CSVIMPORT 'Import from CSV' %>
 </span>
