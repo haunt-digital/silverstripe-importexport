@@ -9,9 +9,10 @@
   -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5); }
 
 .csvpreviewer {
-  /* find out how to fill the width and scroll the overflow*/
-  width: 820px;
-  max-width: 100%; }
+  width: 100%;
+  max-width: 100%;
+  overflow-x: scroll;
+  padding-bottom: 1rem; }
   .csvpreviewer table th {
     padding: 3px; }
   .csvpreviewer table select {

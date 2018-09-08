@@ -190,10 +190,15 @@ class GridFieldImporter_Request extends RequestHandler
                 )
             );
         }
-        $actions = new FieldList(
-            new FormAction("import", "Import CSV"),
-            new FormAction("cancel", "Cancel")
+        $actions = FieldList::create(
+            FormAction::create("import", "Import CSV")
+                ->setUseButtonTag(true)
+                ->addExtraClass("btn btn-primary btn--icon-large font-icon-upload"),
+            FormAction::create("cancel", "Cancel")
+                ->setUseButtonTag(true)
+                ->addExtraClass("btn btn-outline-danger btn-hide-outline font-icon-cancel-circled")
         );
+
         $form = new Form($this, __FUNCTION__, $fields, $actions);
 
         return $form;
