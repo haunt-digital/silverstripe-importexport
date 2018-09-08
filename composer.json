@@ -1,5 +1,5 @@
 {
-    "name": "burnbright/silverstripe-importexport",
+    "name": "i-lateral/silverstripe-importexport",
     "description": "An upgrade to SilverStripe's bulk loading and exporting",
     "type": "silverstripe-vendormodule",
     "license": "MIT",

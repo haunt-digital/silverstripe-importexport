@@ -4,6 +4,8 @@
 
 Import and export data from SilverStripe in various forms, including CSV. This module serves as a replacement/overhaul of BulkLoader functionality found in the framework.
 
+This module is a fork of the [original](https://github.com/burnbright/silverstripe-importexport) module 
+
 ## The loading process
 
 1. Raw data is retrieved from a source (`BulkLoaderSource`).
