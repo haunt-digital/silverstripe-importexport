@@ -1,4 +1,4 @@
-BulkLoaderRelationTest_Course:
+ilateral\SilverStripe\ImportExport\Tests\Model\Course:
   math101:
     Title: 'Math 101'
   tech102:
@@ -6,7 +6,7 @@ BulkLoaderRelationTest_Course:
   mus103: 
     Title: 'Music 103'
 
-BulkLoaderRelationTest_CourseSelection:
+ilateral\SilverStripe\ImportExport\Tests\Model\CourseSelection:
   tech102:
     Course: =>BulkLoaderRelationTest_Course.tech102
     Term: 3
