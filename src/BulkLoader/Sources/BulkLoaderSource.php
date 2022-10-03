@@ -3,11 +3,12 @@
 namespace ilateral\SilverStripe\ImportExport\BulkLoader\Sources;
 
 use IteratorAggregate;
+use Iterator;
 
 /**
  * An abstract source to bulk load records from.
  * Provides an iterator for retrieving records from.
- * 
+ *
  * Useful for holiding source configuration state.
  */
 abstract class BulkLoaderSource implements IteratorAggregate
@@ -18,5 +19,5 @@ abstract class BulkLoaderSource implements IteratorAggregate
      * Records are expected to be 1 dimensional key-value arrays.
      * @return Iterator
      */
-    abstract public function getIterator();
+    abstract public function getIterator(): Iterator;
 }

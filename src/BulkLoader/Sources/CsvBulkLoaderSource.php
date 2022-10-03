@@ -6,6 +6,7 @@ use Goodby\CSV\Import\Standard\Interpreter;
 use Goodby\CSV\Import\Standard\Lexer;
 use Goodby\CSV\Import\Standard\LexerConfig;
 use ArrayIterator;
+use Iterator;
 
 /**
  * CSV file bulk loading source
@@ -73,11 +74,11 @@ class CsvBulkLoaderSource extends BulkLoaderSource
      * Get a new CSVParser using defined settings.
      * @return Iterator
      */
-    public function getIterator()
+    public function getIterator(): Iterator
     {
         if (!file_exists($this->filepath)) {
             //TODO: throw exception instead?
-            return null;
+            return new ArrayIterator([]);
         }
         $header = $this->hasheader ? $this->getFirstRow() : null;
         $output = array();

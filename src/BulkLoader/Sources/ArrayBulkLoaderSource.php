@@ -3,6 +3,7 @@
 namespace ilateral\SilverStripe\ImportExport\BulkLoader\Sources;
 
 use ArrayIterator;
+use Iterator;
 
 /**
  * Array Bulk Loader Source
@@ -18,7 +19,7 @@ class ArrayBulkLoaderSource extends BulkLoaderSource
         $this->data = $data;
     }
 
-    public function getIterator()
+    public function getIterator(): Iterator
     {
         return new ArrayIterator($this->data);
     }
