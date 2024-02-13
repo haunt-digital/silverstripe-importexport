@@ -18,7 +18,7 @@
     ],
     "require": {
         "php": ">=5.6",
-        "silverstripe/framework": "^4.2",
+        "silverstripe/framework": "^5",
         "silverstripe/admin": "^1.2",
         "silverstripe/assets": "^1.2",
         "goodby/csv": "^1.3"
